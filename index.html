@@ -69,17 +69,20 @@
         animation: fadeRunes 2s ease-out;
     }
 
+    /* ✨ effet final léger sur Mellon */
     .mellon {
         font-size: 40px;
         animation: glow 2s ease-in-out infinite;
     }
+
 </style>
 </head>
 
 <body>
 
-<!-- Le fichier audio est chargé ici, invisible pour l'utilisateur -->
-<audio id="bgMusic" src="lotring.mp3"></audio>
+<audio id="bgMusic">
+    <source src="lotring.mp3" type="audio/mpeg">
+</audio>
 
 <div class="container">
 
@@ -113,6 +116,7 @@
 </div>
 
 <script>
+
 const audio = document.getElementById("bgMusic");
 
 function typeWriter(element, text, speed = 40, callback) {
@@ -135,14 +139,14 @@ window.addEventListener("load", () => {
 });
 
 function checkStep1() {
-    // Cette interaction débloque l'autorisation audio pour le navigateur
-    audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
-
     if (document.getElementById('in1').value.toLowerCase().replace(/\s/g, '') === 'idhenrandir') {
+
         document.getElementById('step1').classList.add('hidden');
         document.getElementById('step2').classList.remove('hidden');
+
         const line1 = document.getElementById("s2-1");
         const line2 = document.getElementById("s2-2");
+
         typeWriter(line1, "Sindarin unlocked.", 30, () => {
             typeWriter(line2, "Idh en randir", 60);
         });
@@ -151,8 +155,7 @@ function checkStep1() {
 
 function checkStep2() {
     if (document.getElementById('in2').value.toLowerCase().replace(/\s/g, '') === 'restofthewanderer') {
-        
-        // Le son se lance ici "par magie" grâce à l'interaction du premier clic
+
         audio.play().catch(e => console.log(e));
 
         setTimeout(() => {
@@ -164,10 +167,15 @@ function checkStep2() {
         document.getElementById('step3').classList.remove('hidden');
 
         setTimeout(() => {
-            window.open("https://www.google.com/maps?q=43.358611,-1.774167", "_blank");
+            window.open(
+                "https://www.google.com/maps?q=43.358611,-1.774167",
+                "_blank"
+            );
         }, 3000);
     }
 }
+
 </script>
+
 </body>
 </html>
