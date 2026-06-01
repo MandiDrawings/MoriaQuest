@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Moria Quest</title>
+
+<style>
+    body {
+        background: black;
+        color: #22c55e;
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container { width: 90%; max-width: 600px; text-align: center; }
+
+    input {
+        background: black;
+        border: 1px solid #064e3b;
+        color: #22c55e;
+        padding: 15px;
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    button {
+        background: none;
+        border: 1px solid #064e3b;
+        color: #22c55e;
+        padding: 15px 30px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    button:hover { background: #064e3b; }
+
+    .hidden { display: none; }
+
+    a { color: #22c55e; text-decoration: underline; }
+
+    /* RUNES */
+    @keyframes fadeRunes {
+        0% { opacity: 0; transform: translateY(-10px); filter: blur(5px); }
+        100% { opacity: 0.7; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes glow {
+        0% { text-shadow: 0 0 0px #22c55e; }
+        50% { text-shadow: 0 0 12px #22c55e; }
+        100% { text-shadow: 0 0 0px #22c55e; }
+    }
+
+    .runes {
+        display: inline-block;
+        animation: fadeRunes 2s ease-out forwards, glow 4s infinite ease-in-out 2s;
+    }
+
+    h1 {
+        animation: fadeRunes 2s ease-out;
+    }
+
+    /* ✨ effet final léger sur Mellon */
+    .mellon {
+        font-size: 40px;
+        animation: glow 2s ease-in-out infinite;
+    }
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic">
+    <source src="lotring.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<h1>
+    <span class="runes">ᚠᚱᚦᚲᛟᚾᛗ</span>
+    MORIA QUEST
+    <span class="runes">ᛗᚾᚹᚲᛗᚠ</span>
+</h1>
+
+<div id="step1">
+    <p id="introText"></p>
+    <input type="text" id="in1">
+    <br>
+    <button onclick="checkStep1()">Reveal</button>
+</div>
+
+<div id="step2" class="hidden">
+    <p id="s2-1"></p>
+    <p><strong id="s2-2"></strong></p>
+    <p><a href="https://elfdict.com/" target="_blank">Oracle</a></p>
+    <input type="text" id="in2">
+    <br>
+    <button onclick="checkStep2()">Reveal</button>
+</div>
+
+<div id="step3" class="hidden">
+    <p class="mellon">Mellon</p>
+    <p>43° 21' 31" N, 1° 46' 27" W</p>
+</div>
+
+</div>
+
+<script>
+
+const audio = document.getElementById("bgMusic");
+
+function typeWriter(element, text, speed = 40, callback) {
+    let i = 0;
+    element.innerHTML = "";
+    function write() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(write, speed);
+        } else if (callback) callback();
+    }
+    write();
+}
+
+window.addEventListener("load", () => {
+    const intro = document.getElementById("introText");
+    const text = '"an idea I hope, to enjoy, sky rang joy direct"';
+    setTimeout(() => typeWriter(intro, text, 35), 600);
+});
+
+function checkStep1() {
+    if (document.getElementById('in1').value.toLowerCase().replace(/\s/g, '') === 'idhenrandir') {
+
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+
+        const line1 = document.getElementById("s2-1");
+        const line2 = document.getElementById("s2-2");
+
+        typeWriter(line1, "Sindarin unlocked.", 30, () => {
+            typeWriter(line2, "Idh en randir", 60);
+        });
+    }
+}
+
+function checkStep2() {
+    if (document.getElementById('in2').value.toLowerCase().replace(/\s/g, '') === 'restofthewanderer') {
+
+        audio.play().catch(e => console.log(e));
+
+        setTimeout(() => {
+            audio.pause();
+            audio.currentTime = 0;
+        }, 6000);
+
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.remove('hidden');
+
+        setTimeout(() => {
+            window.open(
+                "https://www.google.com/maps?q=43.358611,-1.774167",
+                "_blank"
+            );
+        }, 3000);
+    }
+}
+
+</script>
+
+</body>
+</html>
