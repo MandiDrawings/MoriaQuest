@@ -78,7 +78,7 @@
 
 <body>
 
-<audio id="bgMusic">
+<audio id="bgMusic" preload="auto">
     <source src="lotring.mp3" type="audio/mpeg">
 </audio>
 
@@ -155,14 +155,21 @@ function checkStep1() {
 function checkStep2() {
     if (document.getElementById('in2').value.toLowerCase().replace(/\s/g, '') === 'restofthewanderer') {
 
-        audio.play().catch(e => console.log(e));
-
+        // 1. Changement visuel immédiat
         document.getElementById('step2').classList.add('hidden');
         document.getElementById('step3').classList.remove('hidden');
 
+        // 2. Tenter de lancer le son
+        audio.play().catch(error => {
+            console.log("Audio bloqué, attente d'interaction...");
+            document.addEventListener('click', () => { audio.play(); }, { once: true });
+        });
+
+        // 3. Affichage citation
         const quote = "It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.";
         typeWriter(document.getElementById("quoteText"), quote, 30);
 
+        // 4. Ouverture GPS garantie
         setTimeout(() => {
             window.open("https://www.google.com/maps?q=43.358611,-1.774167", "_blank");
         }, 8000); 
