@@ -69,12 +69,10 @@
         animation: fadeRunes 2s ease-out;
     }
 
-    /* ✨ effet final léger sur Mellon */
     .mellon {
         font-size: 40px;
         animation: glow 2s ease-in-out infinite;
     }
-
 </style>
 </head>
 
@@ -111,6 +109,7 @@
 <div id="step3" class="hidden">
     <p class="mellon">Mellon</p>
     <p>43° 21' 31" N, 1° 46' 27" W</p>
+    <p id="quoteText" style="font-style: italic; margin-top: 20px;"></p>
 </div>
 
 </div>
@@ -158,23 +157,17 @@ function checkStep2() {
 
         audio.play().catch(e => console.log(e));
 
-        setTimeout(() => {
-            audio.pause();
-            audio.currentTime = 0;
-        }, 6000);
-
         document.getElementById('step2').classList.add('hidden');
         document.getElementById('step3').classList.remove('hidden');
 
+        const quote = "It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.";
+        typeWriter(document.getElementById("quoteText"), quote, 30);
+
         setTimeout(() => {
-            window.open(
-                "https://www.google.com/maps?q=43.358611,-1.774167",
-                "_blank"
-            );
-        }, 3000);
+            window.open("https://www.google.com/maps?q=43.358611,-1.774167", "_blank");
+        }, 8000); 
     }
 }
-
 </script>
 
 </body>
